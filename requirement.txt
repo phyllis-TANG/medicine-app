@@ -1,0 +1,6 @@
+streamlit
+opencv-python
+pytesseract
+pandas
+numpy
+sqlite3

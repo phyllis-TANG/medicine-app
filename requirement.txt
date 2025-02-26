@@ -3,4 +3,4 @@ opencv-python
 pytesseract
 pandas
 numpy
-sqlite3
+pillow

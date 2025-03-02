@@ -2,4 +2,4 @@
 headless = true
 
 [server.systemPackages]
-apt = ["tesseract-ocr", "libtesseract-dev"]
+apt = ["tesseract-ocr", "libtesseract-dev", "tesseract-ocr-chi-sim"]

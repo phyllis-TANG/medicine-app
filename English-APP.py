@@ -9,7 +9,7 @@ from datetime import datetime
 # 🛠 Windows needs to specify Tesseract OCR path
 pytesseract.pytesseract.tesseract_cmd = r'C:\Users\85298\tesseract.exe'  # Change path for Windows users
 
-# 💾 Connect to Database
+# Connect to Database
 def connect_db():
     conn = sqlite3.connect("medicine.db")
     cursor = conn.cursor()
@@ -25,7 +25,7 @@ def connect_db():
     conn.commit()
     return conn, cursor
 
-# 📸 Preprocess Image
+#  Preprocess Image
 def preprocess_image(img_path):
     img = cv2.imread(img_path)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -33,13 +33,13 @@ def preprocess_image(img_path):
     _, binary = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
     return binary
 
-# 📸 OCR Recognition
+#  OCR Recognition
 def scan_medicine(img_path):
     processed_img = preprocess_image(img_path)
     text = pytesseract.image_to_string(processed_img, lang='chi_sim+eng', config='--psm 7 --oem 3').strip()
     return text if text else None
 
-# ✅ Store Medicine
+#  Store Medicine
 def store_medicine(name, location, category, expiry_date):
     conn, cursor = connect_db()
     try:
@@ -51,7 +51,7 @@ def store_medicine(name, location, category, expiry_date):
         st.warning(f"⚠️ Medicine `{name}` already exists. Storage failed.")
     conn.close()
 
-# ✅ Query All Medicines
+# Query All Medicines
 def query_medicine():
     conn, cursor = connect_db()
     cursor.execute("SELECT * FROM medicine")
@@ -59,7 +59,7 @@ def query_medicine():
     conn.close()
     return results
 
-# ✅ Delete Medicine
+#  Delete Medicine
 def delete_medicine(name):
     conn, cursor = connect_db()
     cursor.execute("DELETE FROM medicine WHERE name=?", (name,))
@@ -67,7 +67,7 @@ def delete_medicine(name):
     conn.close()
     st.error(f"🗑 `{name}` has been deleted!")
 
-# ✅ Take Out Medicine
+#  Take Out Medicine
 def take_out_medicine():
     st.subheader("➖ Take Out Medicine")
 
@@ -92,7 +92,7 @@ def take_out_medicine():
         else:
             st.success(f"✅ `{selected_medicine}` was partially taken out. Information is retained.")
 
-# ✅ Export Data
+# Export Data
 def export_data():
     conn, cursor = connect_db()
     df = pd.read_sql_query("SELECT * FROM medicine", conn)
@@ -100,7 +100,7 @@ def export_data():
     df.to_csv("medicine_backup.csv", index=False, encoding="utf-8-sig")
     st.success("✅ Data has been successfully exported to `medicine_backup.csv`")
 
-# ✅ Import Data
+# Import Data
 def import_data(file):
     conn, cursor = connect_db()
     df = pd.read_csv(file)
@@ -108,14 +108,14 @@ def import_data(file):
     conn.close()
     st.success("✅ Data has been successfully imported into the database!")
 
-# ✅ Streamlit UI
+#  Streamlit UI
 st.set_page_config(page_title="Medicine Management System", page_icon="💊", layout="wide")
 st.title("💊 **Medicine Management System**")
 
-# 📌 Select Action
+#  Select Action
 menu = st.sidebar.radio("🔹 Choose an option", ["📥 Store Medicine", "🔍 Query Medicines", "➖ Take Out Medicine", "🗑 Delete Medicine", "📤 Export Data", "📥 Import Data"])
 
-# 📥 Store Medicine
+#  Store Medicine
 if menu == "📥 Store Medicine":
     st.subheader("📥 Store Medicine Information")
 
@@ -146,11 +146,11 @@ if menu == "📥 Store Medicine":
         else:
             st.warning("⚠️ Medicine name cannot be empty.")
 
-# ➖ Take Out Medicine
+#  Take Out Medicine
 elif menu == "➖ Take Out Medicine":
     take_out_medicine()
 
-# 🔍 Query Medicines
+#  Query Medicines
 elif menu == "🔍 Query Medicines":
     st.subheader("🔍 Query All Medicines")
     medicines = query_medicine()
@@ -160,7 +160,7 @@ elif menu == "🔍 Query Medicines":
     else:
         st.warning("📭 No medicines stored.")
 
-# 🗑 Delete Medicine
+#  Delete Medicine
 elif menu == "🗑 Delete Medicine":
     st.subheader("🗑 Delete Medicine")
     medicines = query_medicine()
@@ -172,14 +172,14 @@ elif menu == "🗑 Delete Medicine":
     else:
         st.warning("📭 No medicines stored.")
 
-# 📤 Export Data
+#  Export Data
 elif menu == "📤 Export Data":
     st.subheader("📤 Export Medicine Data")
     if st.button("📤 Export CSV"):
         export_data()
         st.download_button("📥 Download CSV", data=open("medicine_backup.csv", "rb"), file_name="medicine_backup.csv")
 
-# 📥 Import Data
+#  Import Data
 elif menu == "📥 Import Data":
     st.subheader("📥 Import Medicine Data")
     uploaded_file = st.file_uploader("📤 Upload CSV File", type=["csv"])

@@ -1,21 +1,16 @@
+import os
 import streamlit as st
 import cv2
 import pytesseract
 import sqlite3
 import pandas as pd
-import os
 from datetime import datetime
-import os
-import pytesseract
 
-# 检查是否在 Streamlit Cloud 环境中
+# 动态设置 Tesseract 路径
 if os.name == 'posix':  # Linux 环境（Streamlit Cloud 使用 Linux）
     pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
-else:  # Windows 或其他环境
+else:  # Windows 环境
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
-# 🛠 Windows needs to specify Tesseract OCR path
-pytesseract.pytesseract.tesseract_cmd = r'C:\Users\85298\tesseract.exe'  # Change path for Windows users
 
 # Connect to Database
 def connect_db():

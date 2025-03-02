@@ -1,0 +1,5 @@
+[server]
+headless = true
+
+[server.systemPackages]
+apt = ["tesseract-ocr", "libtesseract-dev"]

@@ -127,7 +127,7 @@ if menu == "📥 Store Medicine":
         with open(img_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
 
-        st.image(img_path, caption="🧐 Recognizing...", use_column_width=True)
+        st.image(img_path, caption="🧐 Recognizing...", use_container_width=True)
         name = scan_medicine(img_path)
 
         if name:

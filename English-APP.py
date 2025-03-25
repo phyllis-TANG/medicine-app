@@ -139,7 +139,7 @@ if menu == "📥 Store Medicine":
             st.warning("⚠️ Recognition failed. Please enter manually.")
 
     name = st.text_input("Medicine Name", value=name)
-    location = st.selectbox("Storage Location", ["A1", "B2", "C3"])
+    location = st.selectbox("Storage Location", ["A1","A2","A3", "B1","B2","B3","C1","C2","C3"])
     category = st.selectbox("Category", ["Traditional Chinese Medicine", "Western Medicine", "Health Products"])
     expiry_date = st.date_input("Expiration Date")
 
